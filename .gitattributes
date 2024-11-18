@@ -1,0 +1,31 @@
+# Ignore generated files
+*.g.dart export-ignore
+*.freezed.dart export-ignore
+*.mocks.dart export-ignore
+*.gen.dart export-ignore
+*.part.dart export-ignore
+
+# For Android/Gradle files
+/android/**/build/* export-ignore
+/android/.gradle/* export-ignore
+/android/app/build/* export-ignore
+
+# For iOS/Xcode files
+/ios/Pods/* export-ignore
+/ios/Flutter/Flutter.framework/* export-ignore
+/ios/Flutter/Flutter.podspec export-ignore
+/ios/Runner.xcworkspace/* export-ignore
+
+# Flutter build directories
+build/* export-ignore
+
+# Dart package files
+.packages export-ignore
+.flutter-plugins export-ignore
+.flutter-plugins-dependencies export-ignore
+.pub-cache export-ignore
+.dart_tool export-ignore
+
+# Miscellaneous
+*.log export-ignore
+*.lock export-ignore

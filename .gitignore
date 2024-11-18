@@ -1,0 +1,65 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+*.lock            
+node_modules/     
+coverage/         
+*.rpt             
+*.bak            
+
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+*.tmp
+
+# Xcode related (for iOS/macOS projects)
+xcuserdata/
+*.xcscmblueprint
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+.packages   
+   
+
+# Firebase related
+firebase-debug.log
+firebase-debug.*.log
+# google-services.json     # Firebase Android
+# ios/Runner/GoogleService-Info.plist # Firebase iOS
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# CocoaPods related (iOS/macOS projects)
+Pods/
+podspec.lock
+
+
+#Mason related
+.mason/

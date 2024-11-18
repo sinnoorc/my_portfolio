@@ -1,0 +1,11 @@
+{
+    "bricks": {
+        "feature_module": {
+            "git": {
+                "url": "https://github.com/sinnoorc/riverpod_folder_template",
+                "path": "feature_module",
+                "ref": "b803dc769d745676fc7978d9a22939454d26739c"
+            }
+        }
+    }
+}
