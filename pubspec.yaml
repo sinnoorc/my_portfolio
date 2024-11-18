@@ -35,4 +35,20 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  assets:
+    - assets/fonts/
+
+  fonts:
+    - family: HelveticaNow
+      fonts:
+        - asset: assets/fonts/HelveticaNowDisplay-Regular.ttf
+        - asset: assets/fonts/HelveticaNowDisplay-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/HelveticaNowDisplay-RegularIta.ttf
+          style: italic
+        - asset: assets/fonts/HelveticaNowDisplay-Light.ttf
+          weight: 300
+        - asset: assets/fonts/HelveticaNowDisplay-Thin.ttf
+          weight: 100
+
 flutter_gen:
