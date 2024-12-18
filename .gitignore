@@ -63,3 +63,5 @@ podspec.lock
 
 #Mason related
 .mason/
+
+macos/
