@@ -6,6 +6,11 @@ import 'package:responsive_builder/responsive_builder.dart';
 import '../../../../../common_libs.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../widgets/bottom_section.dart';
+import '../widgets/skills_section.dart';
+import '../widgets/projects_section.dart';
+import '../widgets/about_section.dart';
+import '../widgets/contact_section.dart';
+import '../widgets/navigation.dart';
 
 void useAnimationFrame(void Function(Duration) callback) {
   final savedCallback = useRef(callback);
@@ -184,95 +189,99 @@ class WavePainter extends CustomPainter {
               oldDelegate.mouseVelocity != mouseVelocity));
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final ScrollController _scrollController = ScrollController();
+  int _currentSection = 0;
+  double _scrollProgress = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    final progress = maxScroll > 0 ? currentScroll / maxScroll : 0.0;
+    
+    setState(() {
+      _scrollProgress = progress.clamp(0.0, 1.0);
+      _currentSection = (progress * 4).floor().clamp(0, 4);
+    });
+  }
+
+  void _scrollToSection(int section) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final targetOffset = screenHeight * (section + 1); // +1 because first section is hero
+    
+    _scrollController.animateTo(
+      targetOffset,
+      duration: const Duration(milliseconds: 800),
+      curve: Curves.easeInOut,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.sizeOf(context);
     return Scaffold(
-      // body: Container(
-      //   // color: Colors.red,
-      //   color: const Color(0xFFF40C3F),
-      //   child: const WavePattern(),
-      // ),
       body: Stack(
         children: [
           Container(
             color: const Color(0xFFF40C3F),
             child: const WavePattern(),
           ),
-          ScrollTransformView(
-            children: [
-              ScrollTransformItem(
-                builder: (scrollOffset) {
-                  final offScreenPercentage =
-                      min(scrollOffset / screenSize.height, 1);
-                  return Image.asset(
-                    Assets.images.bg2.path,
-                    height: screenSize.height -
-                        (screenSize.height * 0.2 * offScreenPercentage),
-                    width: screenSize.width -
-                        (screenSize.width * 0.5 * offScreenPercentage),
-                    fit: BoxFit.cover,
-                  );
-                },
-                offsetBuilder: (scrollOffset) {
-                  final offScreenPercentage =
-                      min(scrollOffset / screenSize.height, 1);
-                  final heightShrinkageAmount =
-                      (screenSize.height * 0.2 * offScreenPercentage);
-                  final bool startMovingImage =
-                      scrollOffset >= screenSize.height * 0.8;
-                  final onScreenOffset =
-                      scrollOffset + heightShrinkageAmount / 2;
-                  return Offset(
-                    0,
-                    !startMovingImage
-                        ? onScreenOffset
-                        : onScreenOffset -
-                            (scrollOffset - screenSize.height * 0.8) * 0.2,
-                  );
-                },
-              ),
-              ScrollTransformItem(
-                builder: (context) {
-                  return const OverlayTextSection();
-                },
-                offsetBuilder: (scrollOffset) => Offset(0, -screenSize.height),
-              ),
-              ScrollTransformItem(
-                builder: (context) {
-                  return const BottomSection();
-                },
-              ),
-              ScrollTransformItem(
-                builder: (context) {
-                  return const BottomSection(color: Colors.transparent);
-                },
-              ),
-              ScrollTransformItem(
-                builder: (context) {
-                  return const BottomSection(color: Colors.transparent);
-                },
-              ),
-              ScrollTransformItem(
-                builder: (context) {
-                  return const BottomSection(color: Colors.transparent);
-                },
-              ),
-              ScrollTransformItem(
-                builder: (context) {
-                  return const BottomSection(color: Colors.transparent);
-                },
-              ),
-              ScrollTransformItem(
-                builder: (context) {
-                  return const BottomSection(color: Colors.red);
-                },
-              ),
-            ],
+          SingleChildScrollView(
+            controller: _scrollController,
+            child: Column(
+              children: [
+                // Hero Section
+                SizedBox(
+                  height: screenSize.height,
+                  child: Stack(
+                    children: [
+                      Positioned.fill(
+                        child: Image.asset(
+                          Assets.images.bg2.path,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      const OverlayTextSection(),
+                    ],
+                  ),
+                ),
+                // About Section
+                const AboutSection(),
+                // Skills Section
+                const SkillsSection(),
+                // Projects Section
+                const ProjectsSection(),
+                // Contact Section
+                const ContactSection(),
+              ],
+            ),
           ),
+          // Navigation and UI overlays
+          FloatingNavigation(
+            onSectionTap: _scrollToSection,
+            currentSection: _currentSection,
+          ),
+          ScrollProgressIndicator(progress: _scrollProgress),
         ],
       ),
     );
